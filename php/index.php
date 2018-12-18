@@ -1,9 +1,26 @@
-<?php
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Page Title</title>
+</head>
+<body>
+    <?php
+        require_once('conn_sql.php');
 
-$conn = new PDO('mysql:host=db;dbname=tdi;charset=utf8', 'tdi', 'tdi');
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$conn = null;
+        $sql='SELECT * FROM articles ORDER BY nom';
+        $query=$conn->prepare($sql);
+        $query->execute();
 
-phpinfo();
+        $value = $query->fetchAll(PDO::FETCH_ASSOC);
 
-?>
+        foreach($value as $article) {
+            echo '<a target=_blank href=article.php?id='.$article['id_article'].'>';
+            echo $article['nom'];
+            echo '</a>';
+            echo '<br>';
+        }
+        //$conn = null;
+    ?>
+</body>
+</html>
