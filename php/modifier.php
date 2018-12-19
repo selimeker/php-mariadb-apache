@@ -4,7 +4,7 @@
     if(!isset($_SESSION['status'])) {
         header('Location:login.php');
         exit;
-    } else if ($_SESSION['status'] != 1) {
+    } else if($_SESSION['status'] != 1) {
         header('Location:login.php');
         exit;
     }
@@ -20,7 +20,7 @@
         require_once('conn_sql.php');
     
         // Si le paramétre n'existe pas ou si le paramétre est vide
-        if(!isset($_GET['id']) || empty($_GET['id'])){
+        if(!isset($_GET['id']) || empty($_GET['id'])) {
             echo 'Invalid ID paramter';
             exit;
         }
@@ -29,10 +29,10 @@
             exit;
         }
 
-        $id=intval($_GET['id']);
-        $sql='SELECT * FROM articles WHERE id_article=:a';
-        $query=$conn->prepare($sql);
-        $query->bindValue('a',$id);
+        $id = intval($_GET['id']);
+        $sql = 'SELECT * FROM articles WHERE id_article=:a';
+        $query = $conn->prepare($sql);
+        $query->bindValue('a', $id);
         $query->execute();
 
         $value = $query->fetch(PDO::FETCH_ASSOC);
@@ -49,13 +49,13 @@
             echo 'ID unkown';
         }
 
-        $sql='SELECT couleurs.couleur, couleurs.id_couleur, articles_couleurs.id_article 
+        $sql = 'SELECT couleurs.couleur, couleurs.id_couleur, articles_couleurs.id_article 
         FROM couleurs 
         LEFT JOIN articles_couleurs ON articles_couleurs.id_couleur = couleurs.id_couleur AND articles_couleurs.id_article=:a 
         ORDER BY couleurs.couleur';
 
-        $query=$conn->prepare($sql);
-        $query->bindValue('a',$id);
+        $query = $conn->prepare($sql);
+        $query->bindValue('a', $id);
         $query->execute();
 
         $value = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -69,18 +69,16 @@
         }
 
         echo '<select name="categorie">';
-        $sql='SELECT categories.nom_categorie, categories.id_categorie, articles.id_article 
+        $sql = 'SELECT categories.nom_categorie, categories.id_categorie, articles.id_article 
         FROM categories 
         LEFT JOIN articles ON articles.id_categorie = categories.id_categorie AND articles.id_article=:a 
         ORDER BY categories.nom_categorie'; 
 
-        $query=$conn->prepare($sql);
+        $query = $conn->prepare($sql);
         $query->bindValue('a',$id);
         $query->execute();
 
         $value = $query->fetchAll(PDO::FETCH_ASSOC);
-
-        var_dump($value);
 
         foreach($value as $categorie) {
             if(!is_null($categorie['id_article'])) {

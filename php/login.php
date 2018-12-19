@@ -9,7 +9,8 @@
 </head>
 <body>
     <?php
-    echo '<form method="POST" action="check_login.php">
+    echo '
+    <form method="POST" action="check_login.php">
         Username : <input type="text" name="login"><br>
         Password : <input type="password" name="pass"><br>
         <input type="submit">
