@@ -67,6 +67,30 @@
                 echo $article['couleur'].'<input type="checkbox" name="couleurs[]" value="'.$article['id_couleur'].'"><br>';
             }
         }
+
+        echo '<select name="categorie">';
+        $sql='SELECT categories.nom_categorie, categories.id_categorie, articles.id_article 
+        FROM categories 
+        LEFT JOIN articles ON articles.id_categorie = categories.id_categorie AND articles.id_article=:a 
+        ORDER BY categories.nom_categorie'; 
+
+        $query=$conn->prepare($sql);
+        $query->bindValue('a',$id);
+        $query->execute();
+
+        $value = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        var_dump($value);
+
+        foreach($value as $categorie) {
+            if(!is_null($categorie['id_article'])) {
+                echo '<option value='.$categorie['id_categorie'].' selected>'.$categorie['nom_categorie'].'</option>';
+            } else {
+                echo '<option value='.$categorie['id_categorie'].'>'.$categorie['nom_categorie'].'</option>';
+            }
+        }
+        echo '</select><br>';
+
         echo '<input type="submit" value="Modifier"><br><br>';
         echo '</form>'; 
     ?>

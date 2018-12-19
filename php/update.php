@@ -23,13 +23,15 @@
         $nom=$_POST['nom'];
         $prix=$_POST['prix'];
         $tva=$_POST['tva'];
+        $categorie=$_POST['categorie'];
 
-        $sql='UPDATE articles SET nom=:n, prix=:p, tva=:t WHERE id_article=:id';
+        $sql='UPDATE articles SET nom=:n, prix=:p, tva=:t, id_categorie=:c WHERE id_article=:id';
 
         $data = [
             'n' => $nom,
             'p' => $prix,
             't' => $tva,
+            'c' => $categorie,
             'id' => $id
         ];
 
