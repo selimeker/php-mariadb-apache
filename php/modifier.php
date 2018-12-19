@@ -68,7 +68,6 @@
             }
         }
 
-        echo '<select name="categorie">';
         $sql = 'SELECT categories.nom_categorie, categories.id_categorie, articles.id_article 
         FROM categories 
         LEFT JOIN articles ON articles.id_categorie = categories.id_categorie AND articles.id_article=:a 
@@ -80,6 +79,7 @@
 
         $value = $query->fetchAll(PDO::FETCH_ASSOC);
 
+        echo '<select name="categorie">';
         foreach($value as $categorie) {
             if(!is_null($categorie['id_article'])) {
                 echo '<option value='.$categorie['id_categorie'].' selected>'.$categorie['nom_categorie'].'</option>';
