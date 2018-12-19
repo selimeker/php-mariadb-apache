@@ -1,4 +1,6 @@
 <?php
+    session_start();
+
     require_once('conn_sql.php');
 
     $username = $_POST['login'];
