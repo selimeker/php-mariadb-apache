@@ -19,7 +19,6 @@
     <?php 
         require_once('conn_sql.php');
         
-        // Si le paramétre n'existe pas ou si le paramétre est vide
         if(!isset($_GET['id']) || empty($_GET['id'])) {
             echo 'Invalid ID paramter';
             exit;
@@ -35,23 +34,36 @@
         $tva = $_POST['tva'];
         $cat = $_POST['categorie'];
 
-        $sql='UPDATE articles SET nom=:n, prix=:p, tva=:t, id_categorie=:c WHERE id_article=:id';
+        $sql='UPDATE articles SET nom=:n, prix=:p, tva=:t, id_categorie=:c'; 
 
-        $data = [
-            'n' => $nom,
-            'p' => $prix,
-            't' => $tva,
-            'c' => $cat,
-            'id' => $id
-        ];
+        if (is_uploaded_file($_FILES['fichier']['tmp_name'])) {
+            $fichier = $_FILES['fichier']['name'];
+            $count = 0;
+            while (file_exists('img/'.$fichier)) {
+                $fichier = $count.$fichier;
+                $count++;
+            }
+            move_uploaded_file($_FILES['fichier']['tmp_name'], 'img/'.$fichier);
+            $sql = $sql.', photo=:pic';
+        }
 
-        $query = $conn->prepare($sql)->execute($data);
+        $sql = $sql.' WHERE id_article=:id';
+
+        $query = $conn->prepare($sql);
+        $query->bindValue('n', $nom);
+        $query->bindValue('p', $prix);
+        $query->bindValue('t', $tva);
+        $query->bindValue('c', $cat);
+        $query->bindValue('id', $id);
+        if (isset($fichier)) {
+            $query->bindValue('pic', $fichier);
+        }
+        $query->execute($data);
 
         $sql = 'DELETE FROM articles_couleurs WHERE id_article=:d';
 
         $query=$conn->prepare($sql);
         $query->bindValue('d', $id);
-        //if(!$query->execute()) {echo "erreur delete"; exit;}
 
         if(isset($_POST['couleurs'])) {
             foreach($_POST['couleurs'] as $couleur) {
@@ -59,7 +71,6 @@
                 $query = $conn->prepare($sql);
                 $query->bindValue('ida', $id);
                 $query->bindValue('idc', $couleur);
-                //if(!$query->execute()) {echo "erreur delete"; exit;}
             }
         }
     ?>

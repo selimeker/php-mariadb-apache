@@ -11,7 +11,6 @@
     <?php
         require_once('conn_sql.php');
 
-        // Si le paramétre n'existe pas ou si le paramétre est vide
         if(!isset($_GET['id']) || empty($_GET['id'])){
             echo 'Invalid ID paramter';
             exit;
@@ -37,6 +36,10 @@
             echo ' - TVA : ';
             echo $value['tva'];
             echo ' % <br>';
+            if (!is_null($value['photo'])) {
+                echo 'Photo : <br>';
+                echo '<img src="img/'.$value['photo'].'" height="50" width="50"><br>';
+            }
             echo '<a href=modifier.php?id='.$id.'>Modifer</a>';
         } else {
             echo 'ID unkown';

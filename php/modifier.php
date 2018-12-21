@@ -19,7 +19,6 @@
         <?php
         require_once('conn_sql.php');
     
-        // Si le paramétre n'existe pas ou si le paramétre est vide
         if(!isset($_GET['id']) || empty($_GET['id'])) {
             echo 'Invalid ID paramter';
             exit;
@@ -38,13 +37,15 @@
         $value = $query->fetch(PDO::FETCH_ASSOC);
         
         if($value) {
-            echo '<form method="POST" action="update.php?id='.$_GET['id'].'">';
+            echo '<form method="POST" action="update.php?id='.$_GET['id'].'" enctype="multipart/form-data">';
             echo 'Nom de l\'article :<br>';
             echo '<input type="text" value="'.$value['nom'].'" name="nom" placeholder="'.$value['nom'].'" ><br>';
             echo 'Prix :<br>';
             echo '<input type="text" value="'.$value['prix'].'" name="prix" placeholder="'.$value['prix'].'"><br>';
             echo 'TVA :<br>';
             echo '<input type="text" value="'.$value['tva'].'" name="tva" placeholder="'.$value['tva'].'"><br>';
+            echo 'Photo : <br>';
+            echo '<input type="file" name="fichier"><br>';
         } else {
             echo 'ID unkown';
         }
@@ -88,7 +89,6 @@
             }
         }
         echo '</select><br>';
-
         echo '<input type="submit" value="Modifier"><br><br>';
         echo '</form>'; 
     ?>
