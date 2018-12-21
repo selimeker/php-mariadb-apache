@@ -22,8 +22,12 @@
             echo $article['nom'];
             echo '</a>';
             echo '<br>';
-        }
-        //$conn = null;
+		}
+		
+		if ($_SESSION['status']==1){
+			echo '<a href="logout.php">Logout</a>';
+		}
+
     ?>
 </body>
 </html>
