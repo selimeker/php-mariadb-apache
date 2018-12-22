@@ -20,14 +20,12 @@
         foreach($value as $article) {
             echo '<a target=_blank href=article.php?id='.$article['id_article'].'>';
             echo $article['nom'];
-            echo '</a>';
-            echo '<br>';
+            echo '</a><br>';
 		}
 		
 		if ($_SESSION['status']==1){
 			echo '<a href="logout.php">Logout</a>';
 		}
-
     ?>
 </body>
 </html>
