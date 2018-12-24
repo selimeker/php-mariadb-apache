@@ -11,7 +11,7 @@
     <?php
         require_once('conn_sql.php');
 
-        $sql='SELECT * FROM articles ORDER BY nom';
+        $sql='SELECT id_article, nom FROM articles ORDER BY nom';
         $query=$conn->prepare($sql);
         $query->execute();
 

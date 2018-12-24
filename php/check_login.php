@@ -13,16 +13,14 @@
     $value = $query->fetch(PDO::FETCH_ASSOC);
 
     if($value) {
-        if($username == $value['user']) {
-            $pass_hash = sha1($password);
-            if($pass_hash == $value['pass']){
-                $_SESSION['status']=1;
-                header('Location:index.php');
-                exit;
-            } else {
-                header('Location:login.php');
-                exit;
-            }
+        $pass_hash = sha1($password);
+        if($pass_hash == $value['pass']){
+            $_SESSION['status']=1;
+            header('Location:index.php');
+            exit;
+        } else {
+            header('Location:login.php');
+            exit;
         }
     } else {
         header('Location:login.php');

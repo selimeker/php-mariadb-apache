@@ -28,7 +28,8 @@
             exit;
         }
 
-        $id = $_GET['id'];
+        $id = intval($_GET['id']);
+
         $nom = $_POST['nom'];
         $prix = $_POST['prix'];
         $tva = $_POST['tva'];
@@ -58,12 +59,13 @@
         if (isset($fichier)) {
             $query->bindValue('pic', $fichier);
         }
-        $query->execute($data);
+        $query->execute();
 
         $sql = 'DELETE FROM articles_couleurs WHERE id_article=:d';
 
         $query=$conn->prepare($sql);
         $query->bindValue('d', $id);
+        $query->execute();
 
         if(isset($_POST['couleurs'])) {
             foreach($_POST['couleurs'] as $couleur) {
@@ -71,6 +73,7 @@
                 $query = $conn->prepare($sql);
                 $query->bindValue('ida', $id);
                 $query->bindValue('idc', $couleur);
+                $query->execute();
             }
         }
     ?>
